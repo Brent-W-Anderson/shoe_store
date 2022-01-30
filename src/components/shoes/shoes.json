@@ -1,0 +1,52 @@
+[
+    {
+        "asset": "images/1.png",
+        "name": "AIRMAX",
+        "price": 59.99
+    },
+    {
+        "asset": "images/2.png",
+        "name": "ZOOM",
+        "price": 39.99
+    },
+    {
+        "asset": "images/3.png",
+        "name": "GRADIENT",
+        "price": 54.99
+    },
+    {
+        "asset": "images/4.png",
+        "name": "FREE",
+        "price": 49.49
+    },
+    {
+        "asset": "images/5.png",
+        "name": "SALOMON",
+        "price": 69.99
+    },
+    {
+        "asset": "images/6.png",
+        "name": "BOXING",
+        "price": 29.99
+    },
+    {
+        "asset": "images/7.png",
+        "name": "CANVAS",
+        "price": 59.99
+    },
+    {
+        "asset": "images/8.png",
+        "name": "GOLD/BLACK",
+        "price": 54.99
+    },
+    {
+        "asset": "images/9.png",
+        "name": "OPAL",
+        "price": 54.99
+    },
+    {
+        "asset": "images/10.png",
+        "name": "JUMPFORCE",
+        "price": 69.99
+    }
+]

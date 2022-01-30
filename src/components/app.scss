@@ -1,0 +1,20 @@
+
+$background-color: rgb(240,240,240);
+
+body {
+  margin: 0;
+
+  #root, #order {
+    position: absolute;
+    overflow: hidden;
+    box-sizing: border-box;
+    background-color: $background-color;
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+  }
+
+  #store {
+    position: absolute;
+  }
+}
