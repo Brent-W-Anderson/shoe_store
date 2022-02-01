@@ -8,17 +8,19 @@ import './shoes.scss';
 // list of shoes
 import menu from '../shoes/shoes.json';
 
-export default class ShoeInventory extends Component<{ handleShoePos:Function }> {
-    state = {
-        selectedImg: 0 // TO DO for left/right functionality
-    }
-
+export default class ShoeInventory extends Component {
     render() {
-        const { handleShoePos } = this.props;
-
         return (
             <div className="shoes">
-                { menu.map( ( shoe, idx ) => { return <Shoe key={ idx } shoe={ shoe } handleShoePos={ handleShoePos } /> } ) }
+                { menu.map( ( shoe, idx ) => { 
+                    return (
+                        <Shoe 
+                            key={ idx } 
+                            idx={ idx } 
+                            shoe={ shoe } 
+                        />
+                    ) 
+                } ) }
             </div>
         );
     }
