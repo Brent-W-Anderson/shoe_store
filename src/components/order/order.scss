@@ -1,23 +1,45 @@
 
-// TODO re-position #order align-items top when window height < certain value.
 $background-color: rgb(240,240,240);
 
 #order {
     display: flex;
     justify-content: center;
-    align-items: center;
     overflow-y: auto !important; // override component default
+    align-items: center;
+
+    @media screen and ( max-width: 600px ) {      
+        align-items: unset;
+    }
+
+    @media screen and ( max-height: 650px ) {
+      align-items: flex-start;
+    }
 
     .content_display {
         display: flex;
+
+        @media screen and ( max-width: 600px ) {      
+            display: unset;
+        }
+
         width: max(600px, min( 150vh, 1200px ));        
         border-radius: 10px;
         box-shadow: 0 max( 8px, min( 2vh, 16px ) ) max( 12px, min( 3vh, 24px ) ) rgba( black, .3 );
+
+        @media screen and ( max-height: 650px ) {      
+            box-shadow: none !important; // needs to override because react is also doing something with this shadow based on the width of the card
+        }
 
         .content_left {
             float: left;
             height: auto;
             width: 30%;
+            min-width: 300px;
+
+            @media screen and ( max-width: 600px ) {      
+                float: unset;
+                width: 100%;
+            }
 
             form {
                 box-sizing: border-box;
@@ -44,6 +66,11 @@ $background-color: rgb(240,240,240);
         .content_right { // shoe card
             width: 70%;
             height: 100%;
+
+            @media screen and ( max-width: 600px ) {      
+                width: 100%;
+                height: unset;
+            }
 
             .shoe_card {
                 box-shadow: none;

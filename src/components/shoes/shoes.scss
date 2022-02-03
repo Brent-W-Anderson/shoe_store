@@ -11,7 +11,6 @@ $background-color: rgb(240,240,240);
 .shoes .shoe_card, .shoe_card {
     position: relative;
     box-sizing: border-box;
-    // float: left; // un-comment for left-to-right images
     margin: max( 30px, min( 12vw, 120px ) );
     box-shadow: 0 max( 8px, min( 1.9vw, 16px ) ) max( 12px, min( 1.9vw, 24px ) ) rgba( black, .3 );
     border: 4px solid $background-color;
@@ -21,7 +20,7 @@ $background-color: rgb(240,240,240);
 
     img {
         padding: 20px;
-        width: calc( max( 300px, min( 63vw, 600px ) ) - 4px); // change this to height and vh for left-to-right images
+        width: calc( max( 300px, min( 63vw, 600px ) ) - 4px);
     }
 
     .shoe_description {
@@ -34,7 +33,7 @@ $background-color: rgb(240,240,240);
         h2, p, a {
             text-align: center;
             font-weight: bold;
-            font-size: max( 12px, min( 2vw, 22px ) );
+            font-size: 1.2rem;
             margin: 0;
             padding: 10px 0;
         }
