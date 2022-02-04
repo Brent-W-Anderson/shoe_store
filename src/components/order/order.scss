@@ -1,98 +1,104 @@
 
 $background-color: rgb(240,240,240);
 
-#order {
-    display: flex;
-    justify-content: center;
-    overflow-y: auto !important; // override component default
-    align-items: center;
-
-    @media screen and ( max-width: 600px ) {      
-        align-items: unset;
-    }
-
-    @media screen and ( max-height: 650px ) {
-      align-items: flex-start;
-    }
-
-    .content_display {
+#orderRoot {
+    .order {
+        position: absolute;
         display: flex;
-
-        @media screen and ( max-width: 600px ) {      
-            display: unset;
-        }
-
-        width: max(600px, min( 150vh, 1200px ));        
-        border-radius: 10px;
-        box-shadow: 0 max( 8px, min( 2vh, 16px ) ) max( 12px, min( 3vh, 24px ) ) rgba( black, .3 );
-
-        @media screen and ( max-height: 650px ) {      
-            box-shadow: none !important; // needs to override because react is also doing something with this shadow based on the width of the card
-        }
-
-        .content_left {
-            float: left;
-            height: auto;
-            width: 30%;
-            min-width: 300px;
-
-            @media screen and ( max-width: 600px ) {      
-                float: unset;
-                width: 100%;
-            }
-
-            form {
-                box-sizing: border-box;
-                padding: max( 20px, min( 5vh, 40px ) );
-
-                label {
-                    line-height: 30px;
-                }
-
-                select, input {
-                    box-sizing: border-box;
-                    margin-bottom: 10px;
-                    padding: 5px;
-                    width: 100%;
-                }
-
-                input[ type="number" ]::-webkit-inner-spin-button,
-                input[ type="number" ]::-webkit-outer-spin-button {
-                    opacity: 1;
-                }
-            }
+        justify-content: center;
+        align-items: center;
+        overflow-x: hidden;
+        overflow-y: auto;
+        box-sizing: border-box;
+        background-color: $background-color;
+        width: 100%;
+        height: 100%;
+    
+        @media screen and ( max-width: 350px ) {      
+            overflow-x: auto;
+            justify-content: flex-start;
         }
     
-        .content_right { // shoe card
-            width: 70%;
-            height: 100%;
-
+        @media screen and ( max-width: 600px ) {      
+            align-items: unset;
+        }
+    
+        .content_display {
+            display: flex;
+            align-items: center;
+    
             @media screen and ( max-width: 600px ) {      
-                width: 100%;
-                height: unset;
+                display: unset;
             }
-
-            .shoe_card {
-                box-shadow: none;
-                width: 100%;
-                margin: 0;
-                border: 0;
-
-                img {
+    
+            width: max(600px, min( 150vh, 1200px ));        
+            border-radius: 10px;
+            box-shadow: 0 max( 8px, min( 2vh, 16px ) ) max( 12px, min( 3vh, 24px ) ) rgba( black, .3 );
+    
+            .content_left {
+                float: left;
+                height: auto;
+                width: 30%;
+                min-width: 300px;
+    
+                @media screen and ( max-width: 600px ) {      
+                    float: unset;
+                    width: 100%;
+                }
+    
+                form {
                     box-sizing: border-box;
-                    height: auto;
-                    width: 100%;
+                    padding: max( 20px, min( 5vh, 40px ) );
+    
+                    label {
+                        line-height: 30px;
+                    }
+    
+                    select, input {
+                        box-sizing: border-box;
+                        margin-bottom: 10px;
+                        padding: 5px;
+                        width: 100%;
+                    }
+    
+                    input[ type="number" ]::-webkit-inner-spin-button,
+                    input[ type="number" ]::-webkit-outer-spin-button {
+                        opacity: 1;
+                    }
                 }
-
-                .shoe_description {
-                    position: unset;
+            }
+        
+            .content_right { // shoe card
+                width: 70%;
+                height: 100%;
+    
+                @media screen and ( max-width: 600px ) {      
                     width: 100%;
-                    bottom: 0;
-                    left: 0;
+                    height: unset;
                 }
-
-                .arrows, .shoe_description a { // override component default
-                    display: none !important;
+    
+                .shoe_card {
+                    box-shadow: none;
+                    width: 100%;
+                    margin: 0;
+                    border: 0;
+    
+                    img {
+                        box-sizing: border-box;
+                        height: auto;
+                        width: 100%;
+                    }
+    
+                    .shoe_description {
+                        position: unset;
+                        width: 100%;
+                        bottom: 0;
+                        left: 0;
+                    }
+    
+                    .arrows, .shoe_description a { // override component default
+                        display: none !important;
+                    }
                 }
             }
         }
@@ -104,8 +110,7 @@ $background-color: rgb(240,240,240);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba( black, .5 );
-    backdrop-filter: blur( 1px );
+    background: $background-color;
     width: 100%;
     height: 100%;
 

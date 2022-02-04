@@ -11,7 +11,7 @@ if( root ) {
   );
 }
 
-const order = document.getElementById('order');
+const order = document.getElementById('orderRoot');
 if( order ) {
   ReactDOM.render(
     <Order />,

@@ -22,14 +22,7 @@ export default class Order extends Component {
       price: 0
     },
     hideShadow: false,
-    qty: 1,
-    fName: '',
-    lName: '',
-    delivery: 'delivery',
-    street: '',
-    city: '',
-    state: '',
-    zip: ''
+    delivery: 'delivery'
   }
 
   contentDisplayRef = React.createRef<HTMLDivElement>();
@@ -44,53 +37,21 @@ export default class Order extends Component {
     let url = new URL( url_string );
 
     // check if any data was passed.
-    let selected = url.searchParams.get( 'selected' );
-    let qty = url.searchParams.get( 'qty' );
-    let delivery = url.searchParams.get( 'delivery' );
-    let fName = url.searchParams.get( 'fName' );
-    let lName = url.searchParams.get( 'lName' );
-    let street = url.searchParams.get( 'street' );
-    let city = url.searchParams.get( 'city' );
-    let state = url.searchParams.get( 'state' );
-    let zip = url.searchParams.get( 'zip' );
+    let selectedUrl = url.searchParams.get( 'selected' );
+    let selected = this.state.selected;
 
     // if not, then let's define our own defaults.
-    selected ? null : selected = this.state.selected.toString();
-    const card = menu[ parseInt( selected ) ];
-
-    qty ? null : qty = this.state.qty.toString();
-    const x = parseInt( qty );
-
-    fName ? null : fName = this.state.fName;
-    
-    lName ? null : lName = this.state.lName;
-
-    delivery ? null : delivery = this.state.delivery;
-    
-    street ? null : street = this.state.street;
-
-    city ? null : city = this.state.city;
-
-    state ? null : state = this.state.state;
-
-    zip ? null : zip = this.state.zip;
+    selectedUrl ? selected = parseInt( selectedUrl ) : null;
+    const card = menu[ selected ];
 
     // set the state:
     this.setState( {
-      selected: parseInt( selected ),
+      selected: selected,
       card: {
         asset: card.asset,
         name: card.name,
         price: card.price
-      },
-      qty: x,
-      fName: fName,
-      lName: lName,
-      delivery: delivery,
-      street: street,
-      city: city,
-      state: state,
-      zip: zip
+      }
     } );
   }
 
@@ -98,7 +59,7 @@ export default class Order extends Component {
     const display = this.contentDisplayRef.current;
 
     if( display ) { // manages if there's a card shadow or not.
-      display.clientWidth >= window.innerWidth ?
+      ( display.clientWidth >= window.innerWidth || display.clientHeight >= window.innerHeight ) ?
         this.setState({ hideShadow: true }) : this.setState({ hideShadow: false });
     }
   }
@@ -134,70 +95,14 @@ export default class Order extends Component {
     } );
   }
 
-  selectQty = ( e:React.ChangeEvent<HTMLInputElement> ) => {
-    const x = parseInt( e.target.value );
-
-    if( x > 10 ) { // upper limit
-      this.setState({
-        qty: 10
-      });
-    }
-    else if( x >= 1 ) {
-      this.setState({
-        qty: x
-      });
-    }
-    else { // lower limit
-      this.setState({
-        qty: 1
-      });
-    }
-  }
-
-  selectFName = ( e:React.ChangeEvent<HTMLInputElement> ) => {
-    this.setState({
-      fName: e.target.value
-    });
-  }
-
-  selectLName = ( e:React.ChangeEvent<HTMLInputElement> ) => {
-    this.setState({
-      lName: e.target.value
-    });
-  }
-
   selectDelivery = ( e:React.ChangeEvent<HTMLSelectElement> ) => {
     this.setState({
       delivery: e.target.value
     });
   }
 
-  selectStreet = ( e:React.ChangeEvent<HTMLInputElement> ) => {
-    this.setState({
-      street: e.target.value
-    });
-  }
-
-  selectCity = ( e:React.ChangeEvent<HTMLInputElement> ) => {
-    this.setState({
-      city: e.target.value
-    });
-  }
-
-  selectState = ( e:React.ChangeEvent<HTMLInputElement> ) => {
-    this.setState({
-      state: e.target.value
-    });
-  }
-
-  selectZip = ( e:React.ChangeEvent<HTMLInputElement> ) => {
-    this.setState({
-      zip: e.target.value
-    });
-  }
-
   handleDelivery = () => {
-    const { delivery, street, city, state, zip } = this.state;
+    const { delivery } = this.state;
 
     if( delivery === "delivery" ) {
       return (
@@ -210,8 +115,6 @@ export default class Order extends Component {
             name="street" 
             maxLength={ 255 }
             title="Valid street name" 
-            value={ street } 
-            onChange={ this.selectStreet } 
             required 
           />
           <input 
@@ -220,8 +123,6 @@ export default class Order extends Component {
             name="city" 
             maxLength={ 255 } 
             title="Valid city name" 
-            value={ city }
-            onChange={ this.selectCity } 
             required 
           />
           <input 
@@ -232,8 +133,6 @@ export default class Order extends Component {
             maxLength={ 2 } 
             minLength={ 2 } 
             title="Two letter country code" 
-            value={ state }
-            onChange={ this.selectState } 
             required 
           />
           <input 
@@ -244,8 +143,6 @@ export default class Order extends Component {
             maxLength={ 5 } 
             minLength={ 5 } 
             title="Five digit zip code" 
-            value={ zip }
-            onChange={ this.selectZip } 
             required 
           />
         </div>
@@ -256,48 +153,55 @@ export default class Order extends Component {
   }
 
   render() {
-    const { selected, card, hideShadow, qty, fName, lName, delivery, street, city, state, zip } = this.state;
+    const { card, hideShadow, delivery} = this.state;
 
     return (
       <div 
-        className="content_display" 
-        ref={ this.contentDisplayRef } 
-        style={ { 
-          boxShadow: hideShadow ? 'none' : '0 max( 8px, min( 2vh, 16px ) ) max( 12px, min( 3vh, 24px ) ) rgba( 0, 0, 0, .3 )' 
+        className="order"
+        style={ {
+          alignItems: hideShadow ? 'flex-start' : 'center',
         } }
       >
-        <div className="content_left">
-          <form action={ `./order.php?selected=${ selected }&qty=${ qty }&fName=${ fName }&lName=${ lName }&delivery=${ delivery }&street=${ street }&city=${ city }&state=${ state }&zip=${ zip }` } method="POST">
-            <label htmlFor="shoes"> Pick your shoe: </label>
-            <select name="shoes" value={ card.name } onChange={ this.selectOption }>
-              { menu.map( ( shoe, idx ) => { return this.handleOptions( shoe, idx ) } ) }
-            </select>
+        <div 
+          className="content_display" 
+          ref={ this.contentDisplayRef } 
+          style={ { 
+            boxShadow: hideShadow ? 'none' : '0 max( 8px, min( 2vh, 16px ) ) max( 12px, min( 3vh, 24px ) ) rgba( 0, 0, 0, .3 )' 
+          } }
+        >
+          <div className="content_left">
+            <form action="./order.php" method="POST">
+              <label htmlFor="shoes"> Pick your shoe: </label>
+              <select name="shoes" value={ card.name } onChange={ this.selectOption }>
+                { menu.map( ( shoe, idx ) => { return this.handleOptions( shoe, idx ) } ) }
+              </select>
 
-            <label htmlFor="qty"> Quantity: </label>
-            <input name="qty" type="number" min="1" max="10" value={ qty } onChange={ this.selectQty } title="A Value 1 - 10" required />
+              <label htmlFor="qty"> Quantity: </label>
+              <input name="qty" type="number" min="1" max="10" title="A Value 1 - 10" defaultValue="1" required />
 
-            <label htmlFor="fName"> First Name: </label>
-            <input type="text" name="fName" maxLength={ 255 } value={ fName } onChange={ this.selectFName } title="Valid first name" required />
+              <label htmlFor="delivery"> Delivery: </label>
+              <select value={ delivery } onChange={ this.selectDelivery } name="delivery">
+                <option value="pick up"> pick up </option>
+                <option value="delivery"> ship </option>
+              </select>
 
-            <label htmlFor="lName"> Last Name: </label>
-            <input type="text" name="lName" maxLength={ 255 } value={ lName } onChange={ this.selectLName } title="Valid last name" required />
+              <label htmlFor="fName"> First Name: </label>
+              <input type="text" name="fName" maxLength={ 255 } title="Valid first name" required />
 
-            <label htmlFor="delivery"> Delivery: </label>
-            <select value={ delivery } onChange={ this.selectDelivery } name="delivery">
-              <option value="pick up"> pick up </option>
-              <option value="delivery"> ship </option>
-            </select>
+              <label htmlFor="lName"> Last Name: </label>
+              <input type="text" name="lName" maxLength={ 255 } title="Valid last name" required />
 
-            { this.handleDelivery() }
+              { this.handleDelivery() }
 
-            <input name="price" type="number" style={ { display: 'none' } } value={ card.price } readOnly />
+              <input name="price" type="number" style={ { display: 'none' } } value={ card.price } readOnly />
 
-            <button>Purchase</button>
-          </form>
-        </div>
+              <button>Purchase</button>
+            </form>
+          </div>
 
-        <div className="content_right">
-          <Shoe shoe={ card } />
+          <div className="content_right">
+            <Shoe shoe={ card } />
+          </div>
         </div>
       </div>
     );

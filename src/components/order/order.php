@@ -7,15 +7,13 @@
   </head>
 
   <body>
-    <div id="order"></div>
+    <div id="orderRoot"></div>
     
     <script src="./bundle.js"></script>
   </body>
 </html>
 
 <?php
-    $selected = $_GET['selected'];
-
     if( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
         // variables
         $shoeN = $_POST['shoes'];
@@ -27,8 +25,8 @@
 
         // dates
         date_default_timezone_set('America/Chicago'); // central timezone.
-        $date = date( 'm/d/y' );
-        $pickupDate = date( 'm/d/y', strtotime( '+3 day' ) );
+        $date = date( 'm/d/Y' );
+        $pickupDate = date( 'm/d/Y', strtotime( '+3 day' ) );
 
         // total price calculations with taxes (10%).
         $amount = $price * $qty;
@@ -69,45 +67,24 @@
           $city = $_POST['city'];
           $state = $_POST['state'];
           $zip = $_POST['zip'];
-          
-          echo 
-          '<div class="confirmation">
-            <div class="box">
-              <div class="header">
-                <h2> PURCHASE COMPLETE </h2>
-              </div>
-  
-              <p> '.$fName.' '.$lName.', you have ordered '.$qty.' '.$shoeN.' '.$shoeOrShoes.' </p>
-              <p> Placed on: '.$date.' </p>
-              <p> Expected '.$deliveryMethod.': '.$pickupDate.' </p>
-              <br />
-              <p> '.$street.' </p>
-              <p> '.$city.', '.$state.' '.$zip.' </p>
-              <br />
-              <p> Total: $'.number_format( $total, 2 ).' </p>
-              <p> Saved: $'.number_format( $discount, 2 ).' </p>
-              <a class="close" href="./order.php?selected='.$selected.'&qty='.$qty.'&fName='.$fName.'&lName='.$lName.'&delivery='.$deliveryMethod.'&street='.$street.'&city='.$city.'&state='.$state.'&zip='.$zip.'"> Close </a>
-            </div>
-          </div>';
         }
-        else { // pick up orders won't need an address or any association
-          echo 
-          '<div class="confirmation">
-            <div class="box">
-              <div class="header">
-                <h2> PURCHASE COMPLETE </h2>
-              </div>
-  
-              <p> '.$fName.' '.$lName.', you have ordered '.$qty.' '.$shoeN.' '.$shoeOrShoes.' </p>
-              <p> Placed on: '.$date.' </p>
-              <p> Expected '.$deliveryMethod.': '.$pickupDate.' </p>
-              <br />
-              <p> Total: $'.number_format( $total, 2 ).' </p>
-              <p> Saved: $'.number_format( $discount, 2 ).' </p>
-              <a class="close" href="./order.php?selected='.$selected.'&qty='.$qty.'&fName='.$fName.'&lName='.$lName.'&delivery='.$deliveryMethod.'"> Close </a>
+
+        echo 
+        '<div class="confirmation">
+          <div class="box">
+            <div class="header">
+              <h2> PURCHASE COMPLETE </h2>
             </div>
-          </div>';
-        }
+
+            <p> '.$fName.' '.$lName.', you have ordered '.$qty.' '.$shoeN.' '.$shoeOrShoes.' </p>
+            <p> Placed on: '.$date.' </p>
+            <p> Expected '.$deliveryMethod.': '.$pickupDate.' </p>
+            <br />
+            <p> Total: $'.number_format( $total, 2 ).' </p>
+            <p> Saved: $'.number_format( $discount, 2 ).' </p>
+            <a class="close" href="./index.html"> Close </a>
+          </div>
+        </div>';
 
         // open file
         $file = 'orders.json';
@@ -115,14 +92,14 @@
 
         // define the data we want to save to file
         $order = new stdClass();
-        $order -> date = date( 'm-d-y' ); // just 1 \, but 2 are needed to breakout
+        $order -> date = date( 'm-d-Y' );
         $order -> fullName = $fName." ".$lName;
 
         if( $deliveryMethod === 'delivery' ) {// deliveries need addresses with associated data
           $order -> address = $street." ".$city.", ".$state." ".$zip;
         }
 
-        $order -> totalPaid = round( $total, 2 );
+        $order -> totalPaid = floatVal( number_format( $total, 2 ) );
 
         // convert object into a json string
         $orderData = json_encode( $order );
