@@ -154,12 +154,13 @@ export default class Order extends Component {
 
   render() {
     const { card, hideShadow, delivery} = this.state;
+    const display = this.contentDisplayRef.current;
 
     return (
       <div 
         className="order"
         style={ {
-          alignItems: hideShadow ? 'flex-start' : 'center',
+          alignItems: display ? ( display.clientHeight >= window.innerHeight ) ? 'flex-start' : 'center' : 'center',
         } }
       >
         <div 
