@@ -44,12 +44,16 @@ $background-color: rgb(240,240,240);
             padding: 0;
 
             .order {
+                position: relative;
                 user-select: none;
                 background: lighten( red, 15% );
                 border-top: 4px solid lighten( red, 15% );
                 padding: 16px 0;
                 color: white;
                 border-radius: 0 0 5px 5px;
+                width: calc( 100% + 8px );
+                left: -4px;
+                bottom: -4px;
 
                 &:active {
                     background: lighten( red, 20% );

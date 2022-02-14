@@ -113,7 +113,9 @@
         $current = file_get_contents( $file );
 
         // define the data we want to save to file
-        $order = new stdClass();
+        $order = new stdClass(); // new object
+
+        // object properties to include:
         $order -> date = date( 'm-d-Y' );
         $order -> fullName = $lName.", ".$fName;
 
