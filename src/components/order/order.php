@@ -43,11 +43,11 @@
             $shoeOrShoes = 'shoe';
           } break;
           case ( $qty <= '4' ): { // 2 - 4 shoes
-            $discount = $total * .1;
+            $discount = $total * .1; // small discount
             $total -= $discount;
           } break;
           default: { // 5 or more shoes
-            $discount = $total * .25;
+            $discount = $total * .25; // big discount
             $total -= $discount;
           }
         };
@@ -67,24 +67,46 @@
           $city = $_POST['city'];
           $state = $_POST['state'];
           $zip = $_POST['zip'];
-        }
 
-        echo 
-        '<div class="confirmation">
-          <div class="box">
-            <div class="header">
-              <h2> PURCHASE COMPLETE </h2>
+          echo 
+          '<div class="confirmation">
+            <div class="box">
+              <div class="header">
+                <h2> PURCHASE COMPLETE </h2>
+              </div>
+  
+              <p> <b>'.$fName.' '.$lName.'</b>, you have ordered <b>'.$qty.' '.$shoeN.'</b> '.$shoeOrShoes.' </p>
+              <p> <b>Placed on:</b> '.$date.' </p>
+              <p> <b>Expected '.$deliveryMethod.':</b> '.$pickupDate.' </p>
+              <ul>
+                <li class="address"> '.strtoupper( str_replace( '.', '' , $street ) ).' </li>
+                <li class="address"> '.strtoupper( $city ).' '.strtoupper( $state ).' '.strtoupper( $zip ).' </li>                
+              </ul>
+              <br />
+              <p> <b>Total:</b> $'.number_format( $total, 2 ).' </p>
+              <p> <b>Saved:</b> $'.number_format( $discount, 2 ).' </p>
+              <a class="close" href="./index.html"> Close </a>
             </div>
+          </div>';
+        }
+        else {
+          echo 
+          '<div class="confirmation">
+            <div class="box">
+              <div class="header">
+                <h2> PURCHASE COMPLETE </h2>
+              </div>
 
-            <p> '.$fName.' '.$lName.', you have ordered '.$qty.' '.$shoeN.' '.$shoeOrShoes.' </p>
-            <p> Placed on: '.$date.' </p>
-            <p> Expected '.$deliveryMethod.': '.$pickupDate.' </p>
-            <br />
-            <p> Total: $'.number_format( $total, 2 ).' </p>
-            <p> Saved: $'.number_format( $discount, 2 ).' </p>
-            <a class="close" href="./index.html"> Close </a>
-          </div>
-        </div>';
+              <p> <b>'.$fName.' '.$lName.'</b>, you have ordered <b>'.$qty.' '.$shoeN.'</b> '.$shoeOrShoes.' </p>
+              <p> <b>Placed on:</b> '.$date.' </p>
+              <p> <b>Expected '.$deliveryMethod.':</b> '.$pickupDate.' </p>
+              <br />
+              <p> <b>Total:</b> $'.number_format( $total, 2 ).' </p>
+              <p> <b>Saved:</b> $'.number_format( $discount, 2 ).' </p>
+              <a class="close" href="./index.html"> Close </a>
+            </div>
+          </div>';
+        }
 
         // open file
         $file = 'orders.json';
@@ -93,31 +115,27 @@
         // define the data we want to save to file
         $order = new stdClass();
         $order -> date = date( 'm-d-Y' );
-        $order -> fullName = $fName." ".$lName;
+        $order -> fullName = $lName.", ".$fName;
 
         if( $deliveryMethod === 'delivery' ) {// deliveries need addresses with associated data
-          $order -> address = $street." ".$city.", ".$state." ".$zip;
+          $order -> address = strtoupper( str_replace( '.', '' , $street )." ".$city." ".$state." ".$zip );
         }
 
         $order -> totalPaid = floatVal( number_format( $total, 2 ) );
 
-        // convert object into a json string
+        // convert to json string.
         $orderData = json_encode( $order );
 
         // append to previous data
         if( $current ) { // if previous data exists
-          // open up the array
-          $current = trim( $current, '[' );
-          $current = trim( $current, ']' );
+          $current = trim( $current, "[]\n" );
 
-          // so we can append a new order object
-          $current .= ",\n".$orderData;
+          // save that data to file as json
+          file_put_contents( $file, "[\n".$current.",\n\t".$orderData."\n]" );
         }
         else {
-          $current .= $orderData;
+          // save that data to file as json
+          file_put_contents( $file, "[\n\t".$orderData."\n]" );
         }
-
-        // save that data to file within a new array
-        file_put_contents( $file, "[".$current."]" );
     }
 ?>
