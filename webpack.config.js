@@ -21,7 +21,8 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: './src/components/order/order.php' },
-        { from: './src/index.html' },
+        { from: './src/components/rate/rate.php' },
+        { from: './src/index.php' },
         { from: './src/components/assets' }
       ]
     })

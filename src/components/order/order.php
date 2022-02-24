@@ -85,7 +85,7 @@
               <br />
               <p> <b>Total:</b> $'.number_format( $total, 2 ).' </p>
               <p> <b>Saved:</b> $'.number_format( $discount, 2 ).' </p>
-              <a class="close" href="./index.html"> Close </a>
+              <a class="close" href="./index.php"> Close </a>
             </div>
           </div>';
         }
@@ -103,7 +103,7 @@
               <br />
               <p> <b>Total:</b> $'.number_format( $total, 2 ).' </p>
               <p> <b>Saved:</b> $'.number_format( $discount, 2 ).' </p>
-              <a class="close" href="./index.html"> Close </a>
+              <a class="close" href="./index.php"> Close </a>
             </div>
           </div>';
         }

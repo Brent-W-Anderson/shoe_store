@@ -1,21 +1,16 @@
 
 import React, { Component } from 'react';
 
-// styling
-import '../app.scss';
-import './order.scss';
-
 // list of shoes
-
 import menu from '../shoes/shoes.json';
 import Shoe from '../shoes/shoe';
 
 // styling
-import '../shoes/shoes.scss';
+import './order.scss';
 
 export default class Order extends Component {
   state = {
-    selected: 0,
+    selected: '',
     card: {
       asset: '',
       name: '',
@@ -41,17 +36,27 @@ export default class Order extends Component {
     let selected = this.state.selected;
 
     // if not, then let's define our own defaults.
-    selectedUrl ? selected = parseInt( selectedUrl ) : null;
-    const card = menu[ selected ];
+    selectedUrl ? selected = selectedUrl : null;
 
-    // set the state:
-    this.setState( {
-      selected: selected,
-      card: {
-        asset: card.asset,
-        name: card.name,
-        price: card.price
+    menu.filter( shoe => {
+      if( shoe.name === selected ) {
+        // set the state:
+        this.setState( {
+          selected: selected,
+          card: {
+            asset: shoe.asset,
+            name: shoe.name,
+            price: shoe.price
+          }
+        } );
       }
+    } );
+
+    // sort the array of shoes so they're alphabetized
+    menu.sort( ( a, b ) => {
+      if(a.name < b.name) { return -1; }
+      if(a.name > b.name) { return 1; }
+      return 0;
     } );
   }
 
@@ -75,22 +80,16 @@ export default class Order extends Component {
 
   // change the selected option.
   selectOption = ( e:React.ChangeEvent<HTMLSelectElement> ) => {
-    const selected = menu.filter( ( shoe, idx ) => {
+    menu.filter( shoe => {
       if( shoe.name === e.target.value ) {
         this.setState( {
-          selected: idx
+          selected: shoe.name,
+          card: {
+            asset: shoe.asset,
+            name: shoe.name,
+            price: shoe.price
+          }
         } );
-      }
-
-      return shoe.name === e.target.value;
-    } );
-    const shoe = selected[ 0 ];
-
-    this.setState( {
-      card: {
-        asset: shoe.asset,
-        name: shoe.name,
-        price: shoe.price
       }
     } );
   }

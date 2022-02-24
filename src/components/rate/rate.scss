@@ -1,0 +1,83 @@
+
+@import "../_variables.scss";
+@import "../shoes/shoeCard.scss";
+
+#rateRoot {
+    .rate {
+        .content_display {
+            display: unset;
+            position: relative;
+            width: max(600px, min(150vh, 800px));
+            padding: 40px;
+
+            .content_left {
+                width: 100%;
+                bottom: 0;
+
+                form {
+                    padding: 0;
+
+                    textarea {
+                        width: 100%;
+                        box-sizing: border-box;
+                        resize: vertical;
+                        min-height: 100px;
+                        max-height: 300px;
+                        padding: 5px;
+                    }
+
+                    button {
+                        cursor: pointer;
+                        float: right;
+                    }
+                }
+            }
+
+            .content_right {
+                width: 100%;
+
+                .shoe_card {
+                    .rate_anchor {
+                        display: block;
+                        background: transparent;
+                        color: black;
+
+                        .star {
+                            cursor: pointer;
+                            width: 36px;
+                            height: 36px;
+                            float: left;
+
+                            svg {
+                                position: absolute;
+                                width: 36px;
+                                height: 36px;
+                            }
+
+                            .half, .full {
+                                position: relative;
+                                width: 50%;
+                                height: 100%;
+                                float: left;
+                            }
+                        }
+
+                        p.rate_text {
+                            display: none;
+                        }
+
+                        &:hover {
+                            cursor: default;
+                        }
+                    }
+
+                    .shoe_description {
+                        p.price {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
