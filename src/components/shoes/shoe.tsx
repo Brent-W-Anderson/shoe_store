@@ -325,19 +325,23 @@ export default class Shoe extends Component<{ shoe: { asset:string, name:string,
         }
     }
 
-    handleReviews = () => {
+    handleReviews = ( rating:{ shoe:string, rating:string, message:string } ) => {
         const { reviews } = this.props;
 
-        return reviews ? reviews.map( ( rating:{ shoe:string, rating:string, message:string }, idx:number ) => {
-            if( rating.shoe === this.props.shoe.name ) {
-                return (
-                    <div key={ idx } className="rating">
-                        <p><StarOutlinedIcon></StarOutlinedIcon><span className="star_rating_text">{ rating.rating } star rating</span></p>
-                        <p><i>"{ rating.message }"</i></p>
-                    </div>
-                )
-            }
-        } ) : null;
+        return (
+            <div className="rating">
+                <p>
+                    <StarOutlinedIcon></StarOutlinedIcon>
+                    <span className="star_rating_text">
+                        { rating.rating } star rating
+                    </span>
+                </p>
+                
+                <p>
+                    <i>"{ rating.message }"</i>
+                </p>
+            </div>
+        );
     }
 
     render() {
@@ -351,10 +355,16 @@ export default class Shoe extends Component<{ shoe: { asset:string, name:string,
                 <div className="shoe_description">
                     <h2>{ name }</h2>
                     <p className="price">{ price }</p>
-                    { reviews ? 
-                        <div className="reviews">
-                            { this.handleReviews() }
-                        </div> : null 
+                    { 
+                        reviews ? reviews.map( ( rating:{ shoe:string, rating:string, message:string }, idx:number ) => {
+                            if( rating.shoe === name ) {
+                                return (
+                                    <div key={ idx } className="reviews">
+                                        { this.handleReviews( rating ) }
+                                    </div>
+                                );
+                            }
+                        } ) : null
                     }
                     <a href={ `./order.php?selected=${ name }` }>
                         <div className="order"> ORDER NOW </div>
