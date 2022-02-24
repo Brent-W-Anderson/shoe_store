@@ -341,7 +341,7 @@ export default class Shoe extends Component<{ shoe: { asset:string, name:string,
     }
 
     render() {
-        const { shoe } = this.props;
+        const { shoe, reviews } = this.props;
         const { asset, name, price } = shoe;
 
         return (
@@ -351,9 +351,11 @@ export default class Shoe extends Component<{ shoe: { asset:string, name:string,
                 <div className="shoe_description">
                     <h2>{ name }</h2>
                     <p className="price">{ price }</p>
-                    <div className="reviews">
-                        { this.handleReviews() }
-                    </div>
+                    { reviews ? 
+                        <div className="reviews">
+                            { this.handleReviews() }
+                        </div> : null 
+                    }
                     <a href={ `./order.php?selected=${ name }` }>
                         <div className="order"> ORDER NOW </div>
                     </a>
