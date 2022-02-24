@@ -51,14 +51,25 @@
 
     // append to previous data
     if( $current ) { // if previous data exists
-      $current = trim( $current, "[]\n" );
+      $current = trim( $current, '[\n""\n]' );
+      $current = trim( $current, "" );
+      $current = trim( $current );
+      $length = strlen( $current );
 
-      // save that data to file as json
-      file_put_contents( $file, "[\n".$current.",\n\t".$reviewData."\n]" );
-    }
-    else {
-      // save that data to file as json
-      file_put_contents( $file, "[\n\t".$reviewData."\n]" );
+      echo "<script>console.warn(".$length.");</script>";
+      if( $length > 0 ) {        
+        $current .= ",\n\t".$reviewData;
+
+        // save that data to file as json
+        file_put_contents( $file, "[\n\t".$current."\n]" );
+      }
+      else {
+        // save that data to file as json
+        file_put_contents( $file, "[\n\t".$reviewData."\n]" );
+      }
+    }else {
+      // create a new file
+      file_put_contents( $file, '""' );
     }
   }
 ?>

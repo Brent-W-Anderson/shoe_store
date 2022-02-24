@@ -12,7 +12,7 @@ export default class ShoeInventory extends Component {
     state = {
         menu: menu,
         filter: '-- Filter price by --',
-        reviews: ''
+        reviews: []
     }
 
     componentDidMount() {
@@ -33,9 +33,15 @@ export default class ShoeInventory extends Component {
             array[ randomIndex ], array[ currentIndex ] ];
         }
       
-        const obj = document.getElementById( "data" );
-        this.setState( { menu: array, reviews: JSON.parse( obj ? obj.innerHTML : '' ) } );
-        console.warn( this.state.reviews );
+        let obj = document.getElementById( "data" );
+        if( obj && obj.innerHTML ) {
+            obj = JSON.parse( obj.innerHTML );
+
+            this.setState( { menu: array, reviews: obj } );
+        }
+        else {
+            this.setState( { menu: array } );
+        }
       }
 
     handleFilter = ( e:React.ChangeEvent<HTMLSelectElement> ) => {

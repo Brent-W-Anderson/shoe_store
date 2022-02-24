@@ -5,14 +5,13 @@
   // append to previous data
   if( file_exists( $file ) ) { // if previous data exists
     $current = file_get_contents( $file );
-
     $current = str_replace( array( 'ghastly', 'repulsive', 'appalling', 'horrendous' ), '#bad', $current );
 
     echo "<div style='display:none;' id='data'>".$current."</div>";
-    file_put_contents( './reviews.json', $current );
   }
   else {
-    file_put_contents( './reviews.json', "" );
+    echo "<div style='display:none;' id='data'></div>";
+    file_put_contents( $file, '""' );
   }
 ?>
 
