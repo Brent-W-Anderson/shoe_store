@@ -56,7 +56,6 @@
       $current = trim( $current );
       $length = strlen( $current );
 
-      echo "<script>console.warn(".$length.");</script>";
       if( $length > 0 ) {        
         $current .= ",\n\t".$reviewData;
 

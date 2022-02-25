@@ -20,7 +20,8 @@ export default class Shoe extends Component<{ shoe: { asset:string, name:string,
             star_3: "",
             star_4: "",
             star_5: ""
-        }
+        },
+        reviewsList: []
     }
 
     handleRatingPosition = ( star:string ) => {
@@ -325,27 +326,47 @@ export default class Shoe extends Component<{ shoe: { asset:string, name:string,
         }
     }
 
-    handleReviews = ( rating:{ shoe:string, rating:string, message:string } ) => {
-        const { reviews } = this.props;
-
+    handleReviews = ( reviewItem: { shoe:string, rating:string, message:string }, idx:number ) => {
         return (
-            <div className="rating">
+            <div key={ idx } className="rating">
                 <p>
                     <StarOutlinedIcon></StarOutlinedIcon>
                     <span className="star_rating_text">
-                        { rating.rating } star rating
+                        { reviewItem.rating } star rating
                     </span>
                 </p>
                 
                 <p>
-                    <i>"{ rating.message }"</i>
+                    <i>"{ reviewItem.message }"</i>
                 </p>
             </div>
         );
     }
 
-    render() {
+    handleListOfReviews = () => {
         const { shoe, reviews } = this.props;
+
+        if( reviews ) {
+            const reviewsList = reviews.filter( ( review: { shoe:string, rating:string, message:string } ) => {
+                return review.shoe === shoe.name;
+            } );
+
+            if( reviewsList.length > 0 ) {
+                return (
+                    <div className="reviews">
+                        {
+                            reviewsList.map( ( item: { shoe:string, rating:string, message:string }, idx:number ) => {
+                                return this.handleReviews( item, idx );
+                            } )
+                        }
+                    </div>
+                )
+            }
+        }
+    }
+
+    render() {
+        const { shoe } = this.props;
         const { asset, name, price } = shoe;
 
         return (
@@ -355,17 +376,7 @@ export default class Shoe extends Component<{ shoe: { asset:string, name:string,
                 <div className="shoe_description">
                     <h2>{ name }</h2>
                     <p className="price">{ price }</p>
-                    { 
-                        reviews ? reviews.map( ( rating:{ shoe:string, rating:string, message:string }, idx:number ) => {
-                            if( rating.shoe === name ) {
-                                return (
-                                    <div key={ idx } className="reviews">
-                                        { this.handleReviews( rating ) }
-                                    </div>
-                                );
-                            }
-                        } ) : null
-                    }
+                    { this.handleListOfReviews() }
                     <a href={ `./order.php?selected=${ name }` }>
                         <div className="order"> ORDER NOW </div>
                     </a>
